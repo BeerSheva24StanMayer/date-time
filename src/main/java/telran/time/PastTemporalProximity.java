@@ -27,7 +27,7 @@ public class PastTemporalProximity implements TemporalAdjuster {
         Arrays.sort(dates2);
         finalDate = nearestNegative(dates2, temporal);
         }
-        return finalDate;
+        return finalDate != temporal ? finalDate : null;
     }
 
     private Temporal[] convert(Temporal[] ar, Temporal temp) {

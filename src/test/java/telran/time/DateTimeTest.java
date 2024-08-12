@@ -1,6 +1,5 @@
 package telran.time;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -8,7 +7,7 @@ import java.time.*;
 import java.time.chrono.MinguoDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
-import java.util.Locale;
+
 
 import org.junit.jupiter.api.Test;
 
@@ -90,8 +89,10 @@ public class DateTimeTest {
 
         assertEquals(null, localDate.with(adjasterWithNegative2));
         
-
-
+        Temporal[] datesWithPast3 = {LocalDate.of(2024, 8, 15), LocalDate.of(2024, 8, 15), LocalDate.of(2024, 8, 15)};   
+        PastTemporalProximity adjasterWithNegative3 = new PastTemporalProximity(datesWithPast3);
+        LocalDate localDate3 = LocalDate.of(2024, 8, 15);
+        assertEquals(null, localDate3.with(adjasterWithNegative3));
     }
 
 }
