@@ -1,5 +1,6 @@
 package telran.time;
 
+import java.lang.reflect.Array;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjuster;
@@ -21,9 +22,10 @@ public class PastTemporalProximity implements TemporalAdjuster {
         // that is a nearest in past
         Temporal finalDate = null;
         boolean temporalDateOk = isOkWithDateTem(temporal);
-        boolean temporalArrDateOk = isOkWithDateAr(dates);
+        boolean temporalArrDateOk = isOkWithDateAr(dates, temporal);
         if (temporalArrDateOk && temporalDateOk) {
             convert(dates, temporal);
+            // removeNullsFromArray(dates);
             Arrays.sort(dates);
             finalDate = nearestNegative(dates, temporal);
         }
@@ -32,12 +34,19 @@ public class PastTemporalProximity implements TemporalAdjuster {
 
     private void convert(Temporal[] ar, Temporal temp) {
         for (int i = 0; i < ar.length; i++) {
-            long between = temp.until(dates[i], ChronoUnit.DAYS);
+            try {
+                long between = temp.until(dates[i], ChronoUnit.DAYS);
+                
             ar[i] = temp.plus(between, ChronoUnit.DAYS);
+        }
+            catch(RuntimeException e) {
+                ar[i] = temp;
+            }
         }
     }
 
     private Temporal nearestNegative(Temporal[] ar, Temporal temp) {
+
         int start = 0;
         int end = ar.length - 1;
         int middle = (start + end) / 2;
@@ -53,17 +62,18 @@ public class PastTemporalProximity implements TemporalAdjuster {
         return end == -1 ? null : ar[end];
     }
 
-    private boolean isOkWithDateAr(Temporal[] ar) {
+    private boolean isOkWithDateAr(Temporal[] ar, Temporal temp) {
         for (int i = 0; i < ar.length; i++) {
             boolean year = ar[i].isSupported(ChronoUnit.YEARS);
             boolean month = ar[i].isSupported(ChronoUnit.MONTHS);
             boolean day = ar[i].isSupported(ChronoUnit.DAYS);
             if (!year && !month && !day) {
-                ar[i] = null;
+                ar[i] = temp;
             }
         }
         return ar.length > 0;
-    }
+    
+}
 
     private boolean isOkWithDateTem(Temporal temporal) {
         boolean year = temporal.isSupported(ChronoUnit.YEARS);
