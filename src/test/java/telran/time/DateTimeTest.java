@@ -54,19 +54,19 @@ public class DateTimeTest {
         PastTemporalProximity adjusterWithoutNegative = new PastTemporalProximity(datesWithoutPast);
 
         // //Test for localDate as comparable
-        // LocalDate localDate = LocalDate.of(2024, 8, 12);
-        // assertEquals(LocalDate.of(2024, 8, 9), localDate.with(adjasterWithNegative));
-        // assertEquals(null, localDate.with(adjusterWithoutNegative));
+        LocalDate localDate = LocalDate.of(2024, 8, 12);
+        assertEquals(LocalDate.of(2024, 8, 9), localDate.with(adjasterWithNegative));
+        assertEquals(null, localDate.with(adjusterWithoutNegative));
 
         // //Test for MinguoDate as comparable
-        // MinguoDate minguoDate = MinguoDate.of(113, 8, 12);
-        // assertEquals(MinguoDate.of(113, 8, 9), minguoDate.with(adjasterWithNegative));
-        // assertThrows(RuntimeException.class, () -> minguoDate.with(adjusterWithoutNegative)); // I MinguoDate can't be Null
+        MinguoDate minguoDate = MinguoDate.of(113, 8, 12);
+        assertEquals(MinguoDate.of(113, 8, 9), minguoDate.with(adjasterWithNegative));
+        assertThrows(RuntimeException.class, () -> minguoDate.with(adjusterWithoutNegative)); // I MinguoDate can't be Null
 
         //Test for LocalDateTime as comparable
         LocalDateTime localDateTime = LocalDateTime.of(2024, 8, 12, 23, 00, 15);
-        // assertThrows(RuntimeException.class, () -> localDateTime.with(adjasterWithNegative));
-        // assertThrows(RuntimeException.class, () -> localDateTime.with(adjasterWithNegative));
+        assertThrows(RuntimeException.class, () -> localDateTime.with(adjasterWithNegative));
+        assertThrows(RuntimeException.class, () -> localDateTime.with(adjasterWithNegative));
         assertEquals(LocalDateTime.of(2024, 8, 9, 23, 00, 15), localDateTime.with(adjasterWithNegative));
         assertEquals(null, localDateTime.with(adjusterWithoutNegative));
     }
