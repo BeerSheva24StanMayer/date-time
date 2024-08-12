@@ -21,18 +21,25 @@ public class PastTemporalProximity implements TemporalAdjuster {
         // return the temporal for the encapsulated array
         // that is a nearest in past
         Temporal[] dates2 = Arrays.copyOf(dates, dates.length);
-        convert(dates2, temporal);
+        Temporal finalDate = null;
+        dates2 = convert(dates2, temporal);
+        if(dates2 != null) {
         Arrays.sort(dates2);
-        Temporal finalDate = nearestNegative(dates2, temporal);
+        finalDate = nearestNegative(dates2, temporal);
+        }
         return finalDate;
     }
 
-    private void convert(Temporal[] ar, Temporal temp) {
+    private Temporal[] convert(Temporal[] ar, Temporal temp) {
         boolean isDateOk = isOkWithDateTem(temp);
         boolean isDateOkArr = isOkWithDateAr(dates, temp);
         if (isDateOk && isDateOkArr) {
             conditionsToconvert(ar, temp);
         }
+        else {
+            ar = null;
+        }
+        return ar;
     }
 
     private void conditionsToconvert(Temporal[] ar, Temporal temp) {

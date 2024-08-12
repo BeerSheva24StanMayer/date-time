@@ -58,6 +58,11 @@ public class DateTimeTest {
         assertEquals(LocalDate.of(2024, 8, 9), localDate.with(adjasterWithNegative));
         assertEquals(null, localDate.with(adjusterWithoutNegative));
 
+        // LocalTime doesn't have yy-mm-dd and gets null as result
+        LocalTime localTime = LocalTime.of(10, 5, 10);
+        assertEquals(null, localTime.with(adjasterWithNegative));
+        assertEquals(null, localTime.with(adjusterWithoutNegative));
+
 
         // //Test for MinguoDate as comparable
         MinguoDate minguoDate = MinguoDate.of(113, 8, 12);
