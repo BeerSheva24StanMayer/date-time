@@ -34,7 +34,7 @@ public class PastTemporalProximity implements TemporalAdjuster {
         boolean isDateOk = isOkWithDateTem(temp);
         boolean isDateOkArr = isOkWithDateAr(dates, temp);
         if (isDateOk && isDateOkArr) {
-            conditionsToconvert(ar, temp);
+            conditionsToConvert(ar, temp);
         }
         else {
             ar = null;
@@ -42,7 +42,7 @@ public class PastTemporalProximity implements TemporalAdjuster {
         return ar;
     }
 
-    private void conditionsToconvert(Temporal[] ar, Temporal temp) {
+    private void conditionsToConvert(Temporal[] ar, Temporal temp) {
         boolean isTimeTemp = isTimeTemp(temp);
         if (isTimeTemp) {
             convertWithTime(ar, temp);
