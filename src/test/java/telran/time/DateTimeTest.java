@@ -69,6 +69,24 @@ public class DateTimeTest {
         LocalDateTime localDateTime = LocalDateTime.of(2024, 8, 12, 23, 00, 15);
         assertEquals(LocalDateTime.of(2024, 8, 9, 23, 00, 15), localDateTime.with(adjasterWithNegative));
         assertEquals(null, localDateTime.with(adjusterWithoutNegative));
+
+
+
+        Temporal[] datesWithPast1 = {LocalDateTime.of(2024, 7, 8, 12, 10, 10)};
+        Temporal[] datesWitoutPast1 = {LocalDateTime.of(2024, 7, 15, 12, 10, 10)};
+        Temporal[] datesWithPast2 = {};
+
+        PastTemporalProximity adjasterWithNegative1 = new PastTemporalProximity(datesWithPast);
+        PastTemporalProximity adjasterWithoutNegative1 = new PastTemporalProximity(datesWithoutPast);
+        PastTemporalProximity adjasterWithNegative2 = new PastTemporalProximity(datesWithPast2);
+
+        assertEquals(LocalDate.of(2024, 8, 9), localDate.with(adjasterWithNegative1));
+        assertEquals(null, localDate.with(adjasterWithoutNegative1));
+
+        assertEquals(null, localDate.with(adjasterWithNegative2));
+        
+
+
     }
 
 }

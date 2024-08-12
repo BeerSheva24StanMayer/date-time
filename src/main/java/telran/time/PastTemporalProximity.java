@@ -25,14 +25,14 @@ public class PastTemporalProximity implements TemporalAdjuster {
         boolean temporalDateOk = isOkWithDateTem(temporal);
         boolean temporalArrDateOk = isOkWithDateAr(dates, temporal);
         if (temporalArrDateOk && temporalDateOk) {
-            dates2 = convert(dates2, temporal);
+            convert(dates2, temporal);
             Arrays.sort(dates2);
             finalDate = nearestNegative(dates2, temporal);
         }
         return finalDate;
     }
 
-    private Temporal[] convert(Temporal[] ar, Temporal temp) {
+    private void convert(Temporal[] ar, Temporal temp) {
         for (int i = 0; i < ar.length; i++) {
             try {
                 long between = temp.until(ar[i], ChronoUnit.DAYS);
@@ -43,7 +43,6 @@ public class PastTemporalProximity implements TemporalAdjuster {
                 ar[i] = temp;
             }
         }
-        return ar;
     }
 
     private Temporal nearestNegative(Temporal[] ar, Temporal temp) {
