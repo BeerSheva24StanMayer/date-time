@@ -43,7 +43,7 @@ public class DateTimeTest {
 
         Temporal[] datesWithPast = { LocalDateTime.of(2024, 7, 8, 12, 10, 10),
                 ZonedDateTime.of(2024, 8, 9, 10, 4, 5, 5, ZoneId.of("Europe/Berlin")),
-                LocalDate.of(2023, 9, 13), MinguoDate.of(2024, 8, 8), LocalDate.of(1915, 9, 10) , LocalTime.of(10, 15)};
+                LocalDate.of(2023, 9, 13), MinguoDate.of(2024, 8, 8), LocalDate.of(1915, 9, 10), LocalTime.of(10, 15) };
 
         Temporal[] datesWithoutPast = { LocalDateTime.of(2025, 7, 8, 12, 10, 10),
                 ZonedDateTime.of(2024, 9, 9, 10, 4, 5, 5, ZoneId.of("Europe/Berlin")),
@@ -58,15 +58,15 @@ public class DateTimeTest {
         assertEquals(LocalDate.of(2024, 8, 9), localDate.with(adjasterWithNegative));
         assertEquals(null, localDate.with(adjusterWithoutNegative));
 
+
         // //Test for MinguoDate as comparable
         MinguoDate minguoDate = MinguoDate.of(113, 8, 12);
         assertEquals(MinguoDate.of(113, 8, 9), minguoDate.with(adjasterWithNegative));
-        assertThrows(RuntimeException.class, () -> minguoDate.with(adjusterWithoutNegative)); // I MinguoDate can't be Null
+        assertThrows(RuntimeException.class, () -> minguoDate.with(adjusterWithoutNegative)); // I MinguoDate can't be
+                                                                                              // Null
 
-        //Test for LocalDateTime as comparable
+        // Test for LocalDateTime as comparable
         LocalDateTime localDateTime = LocalDateTime.of(2024, 8, 12, 23, 00, 15);
-        assertThrows(RuntimeException.class, () -> localDateTime.with(adjasterWithNegative));
-        assertThrows(RuntimeException.class, () -> localDateTime.with(adjasterWithNegative));
         assertEquals(LocalDateTime.of(2024, 8, 9, 23, 00, 15), localDateTime.with(adjasterWithNegative));
         assertEquals(null, localDateTime.with(adjusterWithoutNegative));
     }

@@ -20,22 +20,22 @@ public class PastTemporalProximity implements TemporalAdjuster {
         // TODO Auto-generated method stub
         // return the temporal for the encapsulated array
         // that is a nearest in past
+        Temporal[] dates2 = Arrays.copyOf(dates, dates.length);
         Temporal finalDate = null;
         boolean temporalDateOk = isOkWithDateTem(temporal);
         boolean temporalArrDateOk = isOkWithDateAr(dates, temporal);
         if (temporalArrDateOk && temporalDateOk) {
-            convert(dates, temporal);
-            // removeNullsFromArray(dates);
-            Arrays.sort(dates);
-            finalDate = nearestNegative(dates, temporal);
+            dates2 = convert(dates2, temporal);
+            Arrays.sort(dates2);
+            finalDate = nearestNegative(dates2, temporal);
         }
         return finalDate;
     }
 
-    private void convert(Temporal[] ar, Temporal temp) {
+    private Temporal[] convert(Temporal[] ar, Temporal temp) {
         for (int i = 0; i < ar.length; i++) {
             try {
-                long between = temp.until(dates[i], ChronoUnit.DAYS);
+                long between = temp.until(ar[i], ChronoUnit.DAYS);
                 
             ar[i] = temp.plus(between, ChronoUnit.DAYS);
         }
@@ -43,6 +43,7 @@ public class PastTemporalProximity implements TemporalAdjuster {
                 ar[i] = temp;
             }
         }
+        return ar;
     }
 
     private Temporal nearestNegative(Temporal[] ar, Temporal temp) {
@@ -51,7 +52,7 @@ public class PastTemporalProximity implements TemporalAdjuster {
         int end = ar.length - 1;
         int middle = (start + end) / 2;
         while (start <= end) {
-            long diff = temp.until(dates[middle], ChronoUnit.DAYS);
+            long diff = temp.until(ar[middle], ChronoUnit.DAYS);
             if (diff >= 0) {
                 end = middle - 1;
             } else {
