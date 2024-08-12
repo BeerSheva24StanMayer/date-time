@@ -67,7 +67,6 @@ public class DateTimeTest {
         LocalDateTime localDateTime = LocalDateTime.of(2024, 8, 12, 10, 00, 12);
         assertThrows(RuntimeException.class, () -> localDateTime.with(adjasterWithNegative));
         assertThrows(RuntimeException.class, () -> localDateTime.with(adjasterWithNegative));
-        assertEquals(LocalDateTime.of(2024, 7, 9, 10, 00, 12), localDateTime.with(adjasterWithNegative));
     }
 
 }
