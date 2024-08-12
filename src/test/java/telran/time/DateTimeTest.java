@@ -67,11 +67,11 @@ public class DateTimeTest {
 
         // Test for LocalDateTime as comparable
         LocalDateTime localDateTime = LocalDateTime.of(2024, 8, 12, 23, 00, 15);
-        assertEquals(LocalDateTime.of(2024, 8, 9, 23, 00, 15), localDateTime.with(adjasterWithNegative));
+        assertEquals(LocalDateTime.of(2024, 8, 9, 10, 4, 6), localDateTime.with(adjasterWithNegative));
         assertEquals(null, localDateTime.with(adjusterWithoutNegative));
 
 
-
+            // for Array with 1 and 0 elements
         Temporal[] datesWithPast1 = {LocalDateTime.of(2024, 7, 8, 12, 10, 10)};
         Temporal[] datesWithoutPast1 = {LocalDateTime.of(2024, 8, 15, 12, 10, 10)};
         Temporal[] datesWithPast2 = {};

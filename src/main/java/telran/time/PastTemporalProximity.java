@@ -21,32 +21,55 @@ public class PastTemporalProximity implements TemporalAdjuster {
         // return the temporal for the encapsulated array
         // that is a nearest in past
         Temporal[] dates2 = Arrays.copyOf(dates, dates.length);
-        Temporal finalDate = null;
-        boolean temporalDateOk = isOkWithDateTem(temporal);
-        boolean temporalArrDateOk = isOkWithDateAr(dates, temporal);
-        if (temporalArrDateOk && temporalDateOk) {
-            convert(dates2, temporal);
-            Arrays.sort(dates2);
-            finalDate = nearestNegative(dates2, temporal);
-        }
+        convert(dates2, temporal);
+        Arrays.sort(dates2);
+        Temporal finalDate = nearestNegative(dates2, temporal);
         return finalDate;
     }
 
     private void convert(Temporal[] ar, Temporal temp) {
+        boolean isDateOk = isOkWithDateTem(temp);
+        boolean isDateOkArr = isOkWithDateAr(dates, temp);
+        if (isDateOk && isDateOkArr) {
+            conditionsToconvert(ar, temp);
+        }
+    }
+
+    private void conditionsToconvert(Temporal[] ar, Temporal temp) {
+        boolean isTimeTemp = isTimeTemp(temp);
+        if (isTimeTemp) {
+            convertWithTime(ar, temp);
+        } else {
+            convertBasic(ar, temp);
+        }
+    }
+
+    private void convertWithTime(Temporal[] ar, Temporal temp) {
+        for (int i = 0; i < ar.length; i++) {
+            try {
+                long between = temp.until(ar[i], ChronoUnit.SECONDS);
+
+                ar[i] = temp.plus(between, ChronoUnit.SECONDS);
+            } catch (RuntimeException e) {
+                ar[i] = temp;
+            }
+        }
+
+    }
+
+    private void convertBasic(Temporal[] ar, Temporal temp) {
         for (int i = 0; i < ar.length; i++) {
             try {
                 long between = temp.until(ar[i], ChronoUnit.DAYS);
-                
-            ar[i] = temp.plus(between, ChronoUnit.DAYS);
-        }
-            catch(RuntimeException e) {
+
+                ar[i] = temp.plus(between, ChronoUnit.DAYS);
+            } catch (RuntimeException e) {
                 ar[i] = temp;
             }
         }
     }
 
     private Temporal nearestNegative(Temporal[] ar, Temporal temp) {
-
         int start = 0;
         int end = ar.length - 1;
         int middle = (start + end) / 2;
@@ -72,13 +95,20 @@ public class PastTemporalProximity implements TemporalAdjuster {
             }
         }
         return ar.length > 0;
-    
-}
+
+    }
 
     private boolean isOkWithDateTem(Temporal temporal) {
         boolean year = temporal.isSupported(ChronoUnit.YEARS);
         boolean month = temporal.isSupported(ChronoUnit.MONTHS);
         boolean day = temporal.isSupported(ChronoUnit.DAYS);
         return year & month & day;
+    }
+
+    private boolean isTimeTemp(Temporal temp) {
+        boolean hour = temp.isSupported(ChronoUnit.HOURS);
+        boolean minutes = temp.isSupported(ChronoUnit.MINUTES);
+        boolean seconds = temp.isSupported(ChronoUnit.SECONDS);
+        return hour & minutes & seconds;
     }
 }
